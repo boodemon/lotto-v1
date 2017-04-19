@@ -1,0 +1,67 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'FortAwesome/Font-Awesome' ]
+2 info using npm@2.15.9
+3 info using node@v4.5.0
+4 verbose install initial load of E:\xampp\htdocs\lotto-v1\package.json
+5 verbose readDependencies loading dependencies from E:\xampp\htdocs\lotto-v1\package.json
+6 silly cache add args [ 'FortAwesome/Font-Awesome', null ]
+7 verbose cache add spec FortAwesome/Font-Awesome
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'FortAwesome/Font-Awesome',
+8 silly cache add   scope: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: 'FortAwesome/Font-Awesome',
+8 silly cache add   spec: 'github:fortawesome/Font-Awesome',
+8 silly cache add   type: 'hosted',
+8 silly cache add   hosted:
+8 silly cache add    { type: 'github',
+8 silly cache add      ssh: 'git@github.com:fortawesome/Font-Awesome.git',
+8 silly cache add      sshUrl: 'git+ssh://git@github.com/fortawesome/Font-Awesome.git',
+8 silly cache add      httpsUrl: 'git+https://github.com/fortawesome/Font-Awesome.git',
+8 silly cache add      gitUrl: 'git://github.com/fortawesome/Font-Awesome.git',
+8 silly cache add      shortcut: 'github:fortawesome/Font-Awesome',
+8 silly cache add      directUrl: 'https://raw.githubusercontent.com/fortawesome/Font-Awesome/master/package.json' } }
+9 verbose addRemoteGit caching FortAwesome/Font-Awesome
+10 verbose addRemoteGit fortawesome/Font-Awesome is a repository hosted by github
+11 silly tryGitProto attempting to clone git://github.com/fortawesome/Font-Awesome.git
+12 silly tryClone cloning fortawesome/Font-Awesome via git://github.com/fortawesome/Font-Awesome.git
+13 verbose tryClone git-github-com-fortawesome-Font-Awesome-git-732a8e47 not in flight; caching
+14 verbose correctMkdir C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes correctMkdir not in flight; initializing
+15 verbose makeDirectory C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes creation not in flight; initializing
+16 verbose makeCacheDir UID & GID are irrelevant on win32
+17 verbose git clone --template=C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git://github.com/fortawesome/Font-Awesome.git C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\git-github-com-fortawesome-Font-Awesome-git-732a8e47: undefined
+17 verbose git clone --template=C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git://github.com/fortawesome/Font-Awesome.git C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\git-github-com-fortawesome-Font-Awesome-git-732a8e47: undefined
+18 silly tryHTTPS attempting to clone git+https://github.com/fortawesome/Font-Awesome.git
+19 silly tryClone cloning fortawesome/Font-Awesome via git+https://github.com/fortawesome/Font-Awesome.git
+20 verbose tryClone https-github-com-fortawesome-Font-Awesome-git-d5fbc633 not in flight; caching
+21 verbose correctMkdir C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes correctMkdir not in flight; initializing
+22 verbose git clone --template=C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror https://github.com/fortawesome/Font-Awesome.git C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\https-github-com-fortawesome-Font-Awesome-git-d5fbc633: undefined
+22 verbose git clone --template=C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror https://github.com/fortawesome/Font-Awesome.git C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\https-github-com-fortawesome-Font-Awesome-git-d5fbc633: undefined
+23 silly trySSH attempting to clone git@github.com:fortawesome/Font-Awesome.git
+24 silly tryClone cloning fortawesome/Font-Awesome via git@github.com:fortawesome/Font-Awesome.git
+25 verbose tryClone git-github-com-fortawesome-Font-Awesome-git-819c715e not in flight; caching
+26 verbose correctMkdir C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes correctMkdir not in flight; initializing
+27 error git clone --template=C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git@github.com:fortawesome/Font-Awesome.git C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\git-github-com-fortawesome-Font-Awesome-git-819c715e: undefined
+27 error git clone --template=C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git@github.com:fortawesome/Font-Awesome.git C:\Users\saimoksolution\AppData\Roaming\npm-cache\_git-remotes\git-github-com-fortawesome-Font-Awesome-git-819c715e: undefined
+28 verbose stack Error: not found: git
+28 verbose stack     at getNotFoundError (C:\Program Files\nodejs\node_modules\npm\node_modules\which\which.js:14:12)
+28 verbose stack     at F (C:\Program Files\nodejs\node_modules\npm\node_modules\which\which.js:69:19)
+28 verbose stack     at E (C:\Program Files\nodejs\node_modules\npm\node_modules\which\which.js:81:29)
+28 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\which\which.js:90:16
+28 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+28 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+28 verbose stack     at FSReqWrap.oncomplete (fs.js:82:15)
+29 verbose cwd E:\xampp\htdocs\lotto-v1
+30 error Windows_NT 10.0.14393
+31 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "FortAwesome/Font-Awesome"
+32 error node v4.5.0
+33 error npm  v2.15.9
+34 error code ENOGIT
+35 error not found: git
+36 error Failed using git.
+36 error This is most likely not a problem with npm itself.
+36 error Please check if you have git installed and in your PATH.
+37 verbose exit [ 1, true ]

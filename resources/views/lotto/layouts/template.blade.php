@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<title>Lottor v.1</title>
-		<link rel="stylesheet" href="{{ asset('/public/bulma/css/bulma.css') }}" type="text/css"/>
+	<link href="{{ asset('node_modules/bulma/css/bulma.css') }}" rel="stylesheet">
+	<link href="{{ asset('public/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 		<link rel="stylesheet" href="{{ asset('/public/css/aside.css') }}" type="text/css"/>
 	</head>
 	<body>
