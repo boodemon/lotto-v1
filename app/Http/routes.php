@@ -21,6 +21,7 @@ Route::get('/',function(){
 
 Route::resource('login','Admin\AuthController');
 
+
 Route::get('tmp', function () {
     return view('welcome');
 });

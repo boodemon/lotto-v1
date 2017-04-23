@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
-use App\Models\Logs;
 
 class AuthController extends Controller
 {
@@ -50,12 +49,8 @@ class AuthController extends Controller
 		$email 	= ['email' => $user, 'password' => $password];
 		$username 	= ['username' => $user, 'password' => $password];
 		if( Auth::guard('admin')->attempt($email) || Auth::guard('admin')->attempt($username)){
-			Logs::activity(Auth::guard('admin')->user()->name . ' Login system');
 			$link = Auth::guard('admin')->user()->level == 'admin' ? 'dashboard' : 'customers';
 			return redirect($link);
-		}else{
-			Logs::activity( $user . ' Login username or password false');
-			return redirect()->back()->withErrors(['error' => 'Username or password false']);
 		}
 		
     }

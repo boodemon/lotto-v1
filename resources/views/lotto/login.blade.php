@@ -27,7 +27,7 @@
 		<div class="container">
 			<div class="columns is-vcentered">
 				<div class="column is-4 is-offset-4">
-					<form class="" role="form" method="POST" action="{{ url('/admin/login') }}">
+					<form class="" role="form" method="POST" action="{{ url('/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<h3 class="title">Administrators Login</h3>
 							<label class="label">Username</label> 
