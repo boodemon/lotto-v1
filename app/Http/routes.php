@@ -20,7 +20,9 @@ Route::get('/',function(){
 
 
 Route::resource('login','Admin\AuthController');
-
+Route::group(['middleware'=>'admin'],function(){
+	Route::resource('dashboard', 'Admin\DashboardController');
+});
 
 Route::get('tmp', function () {
     return view('welcome');

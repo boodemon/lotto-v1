@@ -30,9 +30,15 @@
 					<form class="" role="form" method="POST" action="{{ url('/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<h3 class="title">Administrators Login</h3>
+							@if( $errors->first('error') )
+								<div class="notification is-danger">
+								  <button class="delete"></button>
+									  Username หรือ Password ไม่ถูกต้อง โปรดลองใหม่อีกครั้ง
+								</div>
+							@endif
 							<label class="label">Username</label> 
 							<p class="control">
-								<input type="text" class="input" name="email" value="{{ old('email') }}" placeholder="Username" autofocus>
+								<input type="text" class="input" name="username" value="{{ old('username') }}" placeholder="Username" autofocus>
 							</p>
 							<label class="label">Password</label>
 							<p class="control">
@@ -53,5 +59,6 @@
     </div>
 
 	</section>
+	
 </body>
 </html>

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Models\Logs;
 use Auth;
 use DB;
 use Woocommerce;
@@ -21,8 +20,7 @@ class DashboardController extends Controller
 			'subject' => 'Home dashboard',
 			'title'		=> 'Dashboard',
 		];
-		Logs::activity(Auth::guard('admin')->user()->name . ' open dashboard page');
-        return view('lostrip.dashboard.index',$data);
+        return view('lotto.dashboard.index',$data);
     }
 	
 	public function create(){

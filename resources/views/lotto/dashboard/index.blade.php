@@ -1,0 +1,1 @@
+@extends('lotto.layouts.template')
