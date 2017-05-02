@@ -22,28 +22,4 @@ class DashboardController extends Controller
 		];
         return view('lotto.dashboard.index',$data);
     }
-	
-	public function create(){
-		$data = [
-			'per_page' 	=> 50,
-			//'status'	=> 'remittance',
-			'page'		=> 1,
-			'after' => date('Y-m-d',strtotime('-2 days')).'T00:00:00',
-				];
-
-		$result = Woocommerce::get('orders', $data);
-		$no = 0;
-		$status = [];
-		if($result){
-			foreach($result as $k ){
-				//echo '<p>'. ( ++$no ) .') '. $k['id'] .' | ' . $k['status'] .' | '. ( date('d-M-Y H:i',strtotime( $k['date_modified'] )) ) .'</p>';
-				$status[] = $k['status'];
-			}
-		}
-		//array_unique( $status );
-		echo '<pre>',print_r( array_unique( $status ) ),'</pre>';
-		echo '<pre>', print_r( $result[0] ),'</pre>';
-		
-	}
-
 }
