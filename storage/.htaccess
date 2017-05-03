@@ -1,0 +1,30 @@
+php_flag magic_quotes_gpc off
+php_value upload_max_filesize 300M
+php_value post_max_size 300M
+php_value memory_limit 300M
+
+#--------------------------- Rewrite ----------------------------------
+Options +FollowSymLinks
+Options +Indexes
+RewriteEngine On
+RewriteBase /chantasricharat/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+#------ index ------
+
+RewriteRule ^th/(.*)/(.*)/(.*)_([0-9]+).html$	?l=th&content=$1&id=$2&id2=$3&p=$4 [L]
+RewriteRule ^th/(.*)/(.*)/(.*).html$	?l=th&content=$1&id=$2&id2=$3 [L]
+RewriteRule ^th/index.html$			?l=th&content=index [L]
+RewriteRule ^th.html$				?l=th&content=index [L]
+
+RewriteRule ^en/(.*)/(.*)/(.*)_([0-9]+).html$	?l=en&content=$1&id=$2&id2=$3&p=$4 [L]
+RewriteRule ^en/(.*)/(.*)/(.*).html$		?l=en&content=$1&id=$2&id2=$3 [L]
+RewriteRule ^en/index.html$					?l=en&content=index [L]
+RewriteRule ^en.html$						?l=en&content=index [L]
+
+RewriteRule ^/$								/th/index.html[L,R=301]
+
+RewriteRule ^(.*)/(.*).html$				?l=$1&content=$2 [L]
+
+#------------------------------------------------------------------------------------------
