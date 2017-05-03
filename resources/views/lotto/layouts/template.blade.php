@@ -38,7 +38,7 @@
 		
 		<div class="columns">
 			@include('lotto.layouts.inc-sidebar-' . Auth::guard('admin')->user()->type )
-			<div class="content column is-10">    
+			<div class="content column is-10">
 				@yield('content')
 			</div>
 		</div>
