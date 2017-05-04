@@ -22,6 +22,7 @@ Route::get('/',function(){
 Route::resource('login','Admin\AuthController');
 Route::group(['middleware'=>'admin'],function(){
 	Route::resource('dashboard', 'Admin\DashboardController');
+	Route::resource('dealer', 'Admin\DealerController');
 });
 
 Route::get('tmp', function () {
