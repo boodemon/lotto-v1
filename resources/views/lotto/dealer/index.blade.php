@@ -6,7 +6,7 @@
                     <div class="x_title">
 						<h2>จัดการข้อมูลตัวแทนขาย</h2>
 						<div class="nav navbar-right panel_toolbox">
-							<a href="{{url('/admin/users/form/')}}" class="btn btn-success" box-width="800" box-height="500"><i class="fa fa-plus"></i> Add New</a>
+							<a href="{{url('dealer/form/')}}" class="btn btn-success" box-width="800" box-height="500"><i class="fa fa-plus"></i> Add New</a>
 							<button type="submit" class="btn btn-danger del"><i class="fa fa-remove"></i> Delete</button>
                         </div>
                     </div>
@@ -29,7 +29,6 @@
                                         <tr class="even pointer odd gradeX">
 											<td class="text-center"><input name="id[]" type="checkbox" id="id" value="{{ $u->id }}" class="checkboxAll" /></td>
 											<td>{{ $u->username }}</td>
-                                            <td>{{$u->email}}</td>
                                             <td>{{$u->name}}</td>
                                             <td>{{$u->tel}}</td>
                                             <td>{{ $u->updated_at }}</td>
