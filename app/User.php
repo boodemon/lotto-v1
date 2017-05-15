@@ -23,4 +23,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+	
+	public static function field($id,$field='name'){
+		$row =  User::where('id',$id)->first();
+		return $row ? $row->$field : false;
+	}
 }

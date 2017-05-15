@@ -9,10 +9,6 @@ use App\Http\Requests;
 use Request as Req;
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Models\Logs;
-use App\Models\OrderHead;
-use App\Models\OrderList;
-use App\Models\Category;
 use Auth;
 use DB;
 
@@ -29,8 +25,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-		if( $this->user->level !== 'admin') return abort(400);
-		$users = User::orderBy('name');
+		if( $this->user->type !== 'admin') return abort(400);
+		$users = User::where('type','admin')
+				->orderBy('name');
 		if( Req::has('keywords') ){
 			$keywords = Req::input('keywords');
 			$users = $users->where(function($query) use ( $keywords ){
@@ -47,13 +44,12 @@ class AdminController extends Controller
 			'users' => $users, 
 			'i' 	=> 0,
 			'id'	=> 0,
-			'subject'=> 'Manage user account',
-			'title'	=>	'User List',
+			'subject'=> 'ข้อมูลผู้ดูแลระบบ',
+			'title'	=>	'รายชื่อผู้ดูแลระบบ',
 			'actionUrl' => 'user/0',
 				];
 				
-		Logs::activity(Auth::guard('admin')->user()->name . ' open user page');
-		return view('lostrip.users.admin',$data);
+		return view('lotto.users.admin',$data);
     }
 
     /**
@@ -63,7 +59,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-		if( $this->user->level !== 'admin') return abort(400);
+		if( $this->user->type !== 'admin') return abort(400);
 		$data = [
 				'user' 		=> false,
 				'id' 		=> 0,
@@ -71,8 +67,7 @@ class AdminController extends Controller
 				'subject'	=> 'Add new user',
 				'title'		=> 'Form user'
 			];
-		Logs::activity(Auth::guard('admin')->user()->name . ' open create user page');
-		return view('lostrip.users.form',$data);
+		return view('lotto.users.form',$data);
     }
 
     /**
@@ -86,9 +81,8 @@ class AdminController extends Controller
 			$id 			= $request->input('id');
 			$user 			= new User;
 			$user->name 	= $request->input('name');	
-			$user->position = Lib::level($request->input('position'));	
 			$user->tel 		= $request->input('tel');	
-			$user->level 	= $request->input('position');
+			$user->type 	= 'dealer';//$request->input('position');
 			
 			if($request->input('password') != ''){
 				$user->password = bcrypt($request->input('password'));
@@ -109,7 +103,6 @@ class AdminController extends Controller
 			}
 			
 			$user->save();
-			Logs::activity(Auth::guard('admin')->user()->name . ' insert new user is ' . $user );
 
 			return redirect('user');
     }
@@ -143,17 +136,16 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-		if( $this->user->level !== 'admin') return abort(400);
+		if( $this->user->type !== 'admin') return abort(400);
 		$user = User::where('id',$id)->first();
 		$data = [
 			'user' => $user,
 			'id' => $id,
-			'actionUrl' => 'user/'.$id,
+			'actionUrl' => 'dealer/'.$id,
 			'subject'	=> 'Profile ' . $user->name,
 			'title'		=> 'Form user'
 			];
-		Logs::activity(Auth::guard('admin')->user()->name . ' open page edit user  ' . $user->name );
-		return view('lostrip.users.form',$data);
+		return view('lotto.users.form',$data);
 
 	}    
 	
@@ -162,7 +154,7 @@ class AdminController extends Controller
 		$id 	= $this->user->id;
 		$user 	= User::where('id',$id)->first();
 		if(!$user) return abort(404);
-		$level = $user->level;
+		$type = $user->type;
 		
 		$rows = DB::table('order_lists as list')
 					->join('order_heads as head','head.id','=','list.order_id');
@@ -200,16 +192,16 @@ class AdminController extends Controller
 			}
 		}
 		
-		if($level == 'sale'){
+		if($type == 'sale'){
 			$rows = $rows->where('head.sale_id',$user->id)
 						 ->orderByRaw(DB::raw("FIELD(sale_status,'cancel','rf','done','','wl','new','help') DESC"));
 		}
 		
-		if($level == 'op'){
+		if($type == 'op'){
 			$rows = $rows->where('head.op_id',$user->id);
 		}
 		
-		if($level == 'account'){
+		if($type == 'account'){
 			$rows = $rows->where('head.account_id',$user->id)
 						->orWhere('head.complete_id',$user->id );
 		}
@@ -223,7 +215,7 @@ class AdminController extends Controller
 			'subject' 	=> 	'Order management',
 			'title'		=> 	'Order list' . $ct ,
 			'rows'		=> 	$rows,
-			'level'		=> 	$user->level,
+			'type'		=> 	$user->type,
 			'status'	=>	$status,
 			'code'		=> 	Category::keycode(),
 			'color' 	=> ['color-green','color-orange','color-blue','color-purple','color-success'],
@@ -236,10 +228,9 @@ class AdminController extends Controller
 			'id' 		=> $id,
 			'subject'	=> 'Profile ' . Auth::guard('admin')->user()->name,
 			'title'		=> 'Form profile',
-			'actionUrl' => 'user/'.$id,
+			'actionUrl' => 'dealer/'.$id,
 		];
-		Logs::activity(Auth::guard('admin')->user()->name . ' open page profile  ' );
-		return view('lostrip.users.profile',$data);
+		return view('lotto.users.profile',$data);
 	}
 
     /**
@@ -251,7 +242,6 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-		$activity = [];
 		if( $request->exists('btn-delete') ){
 			$this->postDelete($request);
 			return redirect()->back();
@@ -260,18 +250,16 @@ class AdminController extends Controller
 			$user->name 	= $request->input('name');	
 			$user->position = $request->input('position');	
 			$user->tel 		= $request->input('tel');	
-			$user->level 	= $request->input('position');
+			$user->type 	= $request->input('position');
 			
 			if($request->input('password') != ''){
 				$user->password = bcrypt($request->input('password'));
-				$activity[] = 'change password';
 			}
 				$username 	= $user->username;
 				$email	 	= $user->email;
 				if($request->input('email') != $email){
 					$c = User::where('email',$request->input('email'))->first();
 					if(!$c){
-						$activity[] = 'change email from '. $user->email .' to '. $request->input('email');
 						$user->email = $request->input('email');
 					}else{
 						return redirect()->back()->withErrors(['email' => 'Error! E-mail is already in use Please try again']);
@@ -280,7 +268,6 @@ class AdminController extends Controller
 				if($request->input('username') != $username){
 					$c = User::where('username',$request->input('username'))->first();
 					if(!$c){
-						$activity[] = 'change username from ' . $username . ' to ' . $request->input('username');
 						$user->username = $request->input('username');
 					}else{
 						return redirect()->back()->withErrors(['username' => 'Error! Username is already in use Please try again']);
@@ -289,7 +276,6 @@ class AdminController extends Controller
 			
 			$user->save();
 			//echo '<pre>',print_r($request->all()), print_r($user), '</pre>';
-			Logs::activity( Auth::guard('admin')->user()->name . ( $activity ? implode(', ', $activity) : '' ) );
 			return redirect('user');
 		}
     }
@@ -307,12 +293,10 @@ class AdminController extends Controller
     }
 	public function del($id = 0){
 		$user = User::where('id',$id)->first();
-		Logs::activity(Auth::guard('admin')->user()->name . ' Delete user ' . $user->name );
 		$user->delete();
 	}
 	
 	public function logout(){
-		Logs::activity( Auth::guard('admin')->user()->name . ' Logout system' );
 		Auth::guard('admin')->logout();
 		return redirect('login');
 	}

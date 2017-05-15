@@ -1,7 +1,5 @@
-body {
-  color: #333333 !important; }
-
-.label {
-  color: #fff !important; }
-
-/*# sourceMappingURL=login.css.map */
+.login_content h1:before,
+.login_content h1:after
+{
+    background: transparent !important;
+}

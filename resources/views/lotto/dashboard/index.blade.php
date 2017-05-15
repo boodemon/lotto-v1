@@ -1,1 +1,4 @@
-@extends('lotto.layouts.template')
+@extends('lostrip.layouts.template')
+@section('content')
+	
+@endsection

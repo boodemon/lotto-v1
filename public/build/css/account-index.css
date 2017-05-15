@@ -1,0 +1,14 @@
+.pmt-box{
+	display:inline-block;
+	margin:10px;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+    background: transparent !important;
+}
+.pmt-payments{
+	display:block;
+}
+.calendar .month-container {
+    height: 220px;
+	border:1px solid #eee;
+}

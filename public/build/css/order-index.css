@@ -1,0 +1,43 @@
+#tb-order.table>tbody>tr>td, 
+#tb-order.table>tbody>tr>th, 
+#tb-order.table>tfoot>tr>td, 
+#tb-order.table>tfoot>tr>th, 
+#tb-order.table>thead>tr>td, 
+#tb-order.table>thead>tr>th {
+    white-space: nowrap !important;
+	font-size:12px;
+}
+.input-group-btn{
+	display:inline-block; 
+	top:-5px; 
+	margin-left:-3px;
+}
+.single-text{
+	overflow:hidden;
+	white-space: nowrap;
+	max-width:150px;
+}
+.tooltip-inner {
+    white-space:pre-wrap;
+	text-align:left !important;
+}
+.form-group{
+	margin:4px !important;
+}
+.form-control{
+	padding:4px !important;
+	border-radius:4px !important;
+}
+.btn.btn-app > .fa, .btn.btn-app > .glyphicon, .btn.btn-app > .ion{
+	margin:5px auto !important
+}
+.tooltip-inner {
+    white-space:pre-wrap;
+	text-align:left;
+}
+.sum-day > td{
+	background:#d9ffec;
+	font-weight:bold;
+	color:#006600;
+	
+}
