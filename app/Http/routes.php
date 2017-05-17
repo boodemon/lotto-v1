@@ -22,10 +22,13 @@ Route::get('/',function(){
 Route::resource('login','Admin\AuthController');
 Route::group(['middleware'=>'admin'],function(){
 	Route::resource('dashboard', 'Admin\DashboardController');
+	// Setting aword of lottory //
+	Route::resource('setting','Admin\SettingController');
 	// Dealer management//
 	Route::resource('dealer', 'Admin\DealerController');
 	// Administrator management//
 	Route::resource('user', 'Admin\AdminController');
+	
 });
 
 Route::get('tmp', function () {

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="noindex, nofollow"/>
     <title>The lotto</title>
-	<link rel="shortcut icon" href="{{ asset('public/images/favicon.ico') }}">
+	<link rel="shortcut icon" href="{{ asset('public/images/logo.png') }}">
 
     <!-- Bootstrap -->
     <link href="{{ asset('public/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">

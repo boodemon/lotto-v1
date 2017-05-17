@@ -25,7 +25,8 @@
 			<h3>General</h3>
             <ul class="nav side-menu">
 				<li><a href="{{ url('dashboard') }}" title="Home dashboard"><i class="fa fa-home"></i> Home </a></li>
-				<li><a href="{{ url('setting') }}" title="Order"><i class="fa fa-ticket"></i> ตั้งค่ารางวัล </a></li>
+				<li><a href="{{ url('result') }}" title="Order"><i class="fa fa-ticket"></i> บันทึกผลการออกสลาก </a></li>
+				<li><a href="{{ url('setting') }}" title="Order"><i class="fa fa-ticket"></i> ตั้งค่าผลตอบแทน </a></li>
 				<li><a href="{{ url('dealer') }}" title="lotto User"><i class="fa fa-user"></i> ตัวแทนขาย </a></li>
 				<li><a href="{{ url('user') }}" title="lotto User"><i class="fa fa-user"></i> ผู้ดูแลระบบ </a></li>
             </ul>
