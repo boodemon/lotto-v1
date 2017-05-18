@@ -1,6 +1,6 @@
 @extends('lotto.layouts.template')
 @section('right-search')
-	<form method="get" action="{{ url('user') }}">
+	<form method="get" action="{{ url('dealer') }}">
 			<div class="input-group">
 				<input type="text" class="form-control" name="keywords" value="{{ Request::input('keywords') }}" placeholder="Search for...">
 				<span class="input-group-btn">

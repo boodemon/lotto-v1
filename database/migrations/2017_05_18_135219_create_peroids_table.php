@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomersTable extends Migration
+class CreatePeroidsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,10 @@ class CreateCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('peroids', function (Blueprint $table) {
             $table->increments('id');
+			$table->date('ondate');
 			$table->integer('user_id');
-			$table->string('name',60);
-			$table->integer('period_id');
-			$table->integer('total');
-			$table->integer('paid');
-			$table->integer('remain');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('customers');
+        Schema::drop('peroids');
     }
 }

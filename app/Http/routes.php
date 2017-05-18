@@ -22,6 +22,10 @@ Route::get('/',function(){
 Route::resource('login','Admin\AuthController');
 Route::group(['middleware'=>'admin'],function(){
 	Route::resource('dashboard', 'Admin\DashboardController');
+	// Customer lottory //
+	Route::resource('customer','Admin\CustomerController');
+	// Setting aword of lottory //
+	Route::resource('result','Admin\ResultController');
 	// Setting aword of lottory //
 	Route::resource('setting','Admin\SettingController');
 	// Dealer management//

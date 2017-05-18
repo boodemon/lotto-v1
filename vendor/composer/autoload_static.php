@@ -266,6 +266,7 @@ class ComposerStaticInitb70f088484b47d2383c58fc4103367c4
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_17_001525_create_customers_table.php',
         'CreateNumbersTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_17_001540_create_numbers_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreatePeroidsTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_18_135219_create_peroids_table.php',
         'CreateResultsTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_17_001353_create_results_table.php',
         'CreateSettingsTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_16_121745_create_settings_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',

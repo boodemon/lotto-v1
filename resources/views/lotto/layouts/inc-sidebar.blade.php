@@ -1,6 +1,6 @@
 <div class="left_col scroll-view">
 	<div class="navbar nav_title" style="border: 0;">
-		<a href="{{ url('/') }}" class="site_title"><img src="{{ asset('public/images/logo.png') }}" class="lotto-logo" /><span>lotto (Thailand) Co., Ltd.</span></a>
+		<a href="{{ url('/') }}" class="site_title"><img src="{{ asset('public/images/logo.png') }}" class="lotto-logo" /><span>The lotto </span></a>
 	</div>
 
 	<div class="clearfix"></div>
@@ -25,7 +25,8 @@
 			<h3>General</h3>
             <ul class="nav side-menu">
 				<li><a href="{{ url('dashboard') }}" title="Home dashboard"><i class="fa fa-home"></i> Home </a></li>
-				<li><a href="{{ url('result') }}" title="Order"><i class="fa fa-ticket"></i> บันทึกผลการออกสลาก </a></li>
+				<li><a href="{{ url('customer') }}" title="Order"><i class="fa fa-ticket"></i> บันทึกผู้ซื้อ </a></li>
+				<li><a href="{{ url('result') }}" title="Order"><i class="fa fa-ticket"></i> บันทึกเลขที่ออก </a></li>
 				<li><a href="{{ url('setting') }}" title="Order"><i class="fa fa-ticket"></i> ตั้งค่าผลตอบแทน </a></li>
 				<li><a href="{{ url('dealer') }}" title="lotto User"><i class="fa fa-user"></i> ตัวแทนขาย </a></li>
 				<li><a href="{{ url('user') }}" title="lotto User"><i class="fa fa-user"></i> ผู้ดูแลระบบ </a></li>
