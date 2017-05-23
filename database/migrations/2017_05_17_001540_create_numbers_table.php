@@ -14,17 +14,12 @@ class CreateNumbersTable extends Migration
     {
         Schema::create('numbers', function (Blueprint $table) {
             $table->increments('id');
+			$table->integer('period_id');
 			$table->integer('user_id');
 			$table->integer('customer_id');
-			$table->integer('number');
+			$table->string('number');
 			$table->integer('tang');
 			$table->integer('tod');
-			$table->integer('uptwo');
-			$table->integer('todtwo');
-			$table->integer('upwing');
-			$table->integer('downtwo');
-			$table->integer('downtree');
-			$table->integer('downwing');
 			$table->integer('amount');
             $table->timestamps();
         });

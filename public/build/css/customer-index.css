@@ -1,62 +1,7 @@
-#tb-order.table>tbody>tr>td, #tb-order.table>tbody>tr>th, #tb-order.table>tfoot>tr>td, #tb-order.table>tfoot>tr>th, #tb-order.table>thead>tr>td, #tb-order.table>thead>tr>th {
-    white-space: nowrap !important;
-}
-
-.input-group-btn{
-	display:inline-block; 
-	top:-5px; 
-	margin-left:-3px;
-}
-
-.single{
-	overflow:hidden;
-	white-space: nowrap;
-	max-width:150px;
-}
-
-.tooltip-inner {
-    white-space:pre-wrap;
-	text-align:left;
-}
-
-.icon-circle{
-    border-radius: 50%;
-    font-size: 14px !important;
-    text-align: center;
-    vertical-align: middle !important;
-    overflow: hidden;
-    height: 46px !important;
-    width: 46px !important;
-    display: inline-block;
-    line-height: 3 !important;
-    font-weight: bold;
-}
-
-.icon-help{
-	border:1px solid #f00;
-	background:#f00;
-	color:#fff !important;
-}
-.icon-new{
-	border:1px solid #008C23;
-	background:#008C23;
-	color:#fff !important;
-}
-.icon-wl{
-	border:1px solid #ec971f;
-	background:#ec971f;
-	color:#fff !important;
-}
-
-.line-matching > .tile-stats{
-	border-color:#00a3d9;
-}
-.line-help > .tile-stats{
-	border-color:#f00;
-}
-.line-new > .tile-stats{
-	border-color:#008C23;
-}
-.line-wl > .tile-stats{
-	border-color:#ec971f;
+.number-tag{
+	border:1px solid #ccc;
+	padding:0 4px;
+	margin:2px;
+	display:inline-block;
+	border-radius:2px;
 }

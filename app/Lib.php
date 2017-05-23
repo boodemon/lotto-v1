@@ -256,6 +256,24 @@ class Lib {
 		return $txt;
 	}
 	
+	public static function numberTag($json = []){
+		//echo '<pre>',print_r($json),'</pre>';
+		$txt = '';
+		
+		if($json){
+			foreach($json as   $data){
+				$txt .= '<span class="number-tag"><span class="number"><strong>'. $data['number'] .'</strong> = </span>'
+						.'<span class="tang">'. $data['tang'] .'</span>';
+				if( !empty( $data['tod'] ) )
+					$txt .= ' x <span class="tod">' . $data['tod'] .'</span>';
+				$txt .= '</span>';
+			}
+		}
+			
+		return $txt;
+		
+	}
+	
 	public static function shippingStatus($status = null){
 		$res = [
 			'cancle' => '<span class="color-red">ยกเลิกรายการ</span>',

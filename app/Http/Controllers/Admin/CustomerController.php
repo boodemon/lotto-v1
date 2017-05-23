@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use App\User;
 use App\Lib;
 use App\Models\Customer;
 use App\Models\Number;
@@ -16,18 +17,22 @@ use App\Models\Peroid;
 class CustomerController extends Controller
 {
     public function index(){
-		
+		$due  = Peroid::orderBy('id','desc')->first();
+		$rows = $due ? Customer::where('period_id',$due->id)->orderBy('name')->paginate(52) : false;
+		$numbers = $due ? $this->number($due->id) : false;
 		$data = [
-			//'row' => $row,
+			'rows' => $rows,
 			'actionUrl' => 'customer',
 			'subject'	=> 'รายชื่อผู้ซื้อหวยประจำงวด ' . Lib::dateThai( $this->peroid() ),
-			'title'		=> 'รายละเอียดผู้ซื้อ'
+			'title'		=> 'รายละเอียดผู้ซื้อ',
+			'number'	=> $numbers ? $numbers : false,
 		];		
 		return view('lotto.customer.index',$data);
 	}
 	
 	public function create(){
-		
+		$dealer = User::orderBy('name')->get();
+		$user 	= Auth::guard('admin')->user();
 		$data = [
 			'row' 		=> false,
 			'actionUrl' => 'customer',
@@ -35,13 +40,55 @@ class CustomerController extends Controller
 			'title'		=> 'ฟอร์มบันทึกรายการขาย',
 			'peroid'	=> $this->peroid(),
 			'id'		=> 0,
+			'user'		=> $user,
+			'dealer'		=> $dealer ,
 		];		
-		echo 'date : ' . $this->peroid();
 		return view('lotto.customer.form',$data);
 	}
 	
+	public function store(Request $request){
+		//echo '<pre>',print_r($request->all()),'</pre>';
+		$cp = Peroid::where('ondate',$request->input('peroid'))->first();
+		$pe = $cp ? $cp : new Peroid;
+		$pe->ondate = $request->input('peroid');
+		$pe->save();
+		
+		$customer = new Customer;
+		$customer->user_id 		= $request->input('dealer_id');
+		$customer->name 		= $request->input('name');
+		$customer->paid 		= $request->input('paid');
+		$customer->remain 		= $request->input('remain');
+		$customer->period_id 	= $pe->id;
+		$customer->save();
+		
+		$total = 0;
+		if( $request->input('number') ){
+			foreach( $request->input('number') as $no => $number ){
+				$tang 	= $request->input('tang.' . $no);
+				$tod 	= $request->input('tod.' .  $no); 
+				$number 	= $request->input('number.' .  $no); 
+				$amount = $tang + $tod;
+				$num 	= new Number;
+				$num->number 	= $number;
+				$num->tang 	= $tang;
+				$num->tod 	= $tod == '' ? 0 : $tod;
+				$num->amount= $tang + $tod;
+				$num->user_id 		= $request->input('dealer_id');
+				$num->period_id 	= $pe->id;
+				$num->customer_id 	= $customer->id;
+				$num->save();
+				$total += $amount;
+				
+			}
+		}
+		
+		Customer::where('id',$customer->id)->update(['total' => $total]);
+		return redirect('customer');
+		
+	}
+	
 	public function peroid(){
-		$row 	= Peroid::orderBy('id','desc')->first();
+		$row 	= Peroid::orderBy('ondate','desc')->first();
 		$cdate 	= strtotime( date('Y-m-d'));
 		$due 	= strtotime( date('Y-m-16') );
 		if($row){
@@ -60,4 +107,20 @@ class CustomerController extends Controller
 		}
 		return $peroid;
 	}
+	
+	public function number($due_id = 0){
+		$rows = Number::where('period_id',$due_id)->get();
+		$num = [];
+		if( $rows ){
+			foreach($rows as $row){
+				$num[$row->customer_id][] = [
+						'number' => $row->number,
+						'tang'	=> $row->tang,
+						'tod'	=> $row->tod
+							];
+			}
+		}
+		return $num;
+	}
+	
 }
