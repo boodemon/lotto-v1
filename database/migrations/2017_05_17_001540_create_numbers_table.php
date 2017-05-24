@@ -20,6 +20,8 @@ class CreateNumbersTable extends Migration
 			$table->string('number');
 			$table->integer('tang');
 			$table->integer('tod');
+			$table->enum('wingup',['N','Y']);
+			$table->enum('wingdown',['N','Y']);
 			$table->integer('amount');
             $table->timestamps();
         });

@@ -48,6 +48,7 @@ class CustomerController extends Controller
 	
 	public function store(Request $request){
 		//echo '<pre>',print_r($request->all()),'</pre>';
+		
 		$cp = Peroid::where('ondate',$request->input('peroid'))->first();
 		$pe = $cp ? $cp : new Peroid;
 		$pe->ondate = $request->input('peroid');
@@ -57,6 +58,7 @@ class CustomerController extends Controller
 		$customer->user_id 		= $request->input('dealer_id');
 		$customer->name 		= $request->input('name');
 		$customer->paid 		= $request->input('paid');
+		$customer->discount 	= 0;//$request->input('discount');
 		$customer->remain 		= $request->input('remain');
 		$customer->period_id 	= $pe->id;
 		$customer->save();
@@ -67,23 +69,58 @@ class CustomerController extends Controller
 				$tang 	= $request->input('tang.' . $no);
 				$tod 	= $request->input('tod.' .  $no); 
 				$number 	= $request->input('number.' .  $no); 
-				$amount = $tang + $tod;
+				$d = 0;
+				if( $request->exists('wingup.' .  $no) )
+					++$d;
+				
+				if( $request->exists('wingdown.' .  $no) )
+					++$d;
+			
+				//echo 'no '. $no . ' | d : '. $d .'<br/>';
+				$amount = ($d > 0 ? $tang * $d  : $tang ) + $tod;
+				
 				$num 	= new Number;
 				$num->number 	= $number;
-				$num->tang 	= $tang;
-				$num->tod 	= $tod == '' ? 0 : $tod;
-				$num->amount= $tang + $tod;
+				$num->tang 		= $tang;
+				$num->tod 		= $tod == '' ? 0 : $tod;
+				$num->amount	= $amount;
+				$num->wingup 	= $request->exists('wingup.' .  $no) ? 'Y' : 'N';
+				$num->wingdown= $request->exists('wingdown.' .  $no) ? 'Y' : 'N';
 				$num->user_id 		= $request->input('dealer_id');
 				$num->period_id 	= $pe->id;
 				$num->customer_id 	= $customer->id;
 				$num->save();
-				$total += $amount;
+				$total += ($d > 0 ? $amount * $d : $amount);
 				
 			}
 		}
-		
+	//echo $d .' | '. $total .'<br/>';
 		Customer::where('id',$customer->id)->update(['total' => $total]);
 		return redirect('customer');
+	
+		
+	}
+	
+	public function edit($id){
+		$dealer = User::orderBy('name')->get();
+		$row = Customer::where('id',$id)->first();
+		if(!$row) return false;
+		$user 	= Auth::guard('admin')->user();
+		$nums = Number::where('customer_id',$id)->get();
+		$data = [
+			'row' 		=> $row,
+			'nums'		=> $nums,
+			'actionUrl' => 'customer/' . $id,
+			'subject'	=> 'บันทึกรายการขายประจำงวด ' . Lib::dateThai( $this->peroid() ),
+			'title'		=> 'ฟอร์มบันทึกรายการขาย',
+			'peroid'	=> $this->peroid(),
+			'id'		=> $id,
+			'user'		=> $user,
+			'dealer'		=> $dealer ,
+			'i'			=> 0,
+			//'total'		=> 0,
+		];		
+		return view('lotto.customer.form',$data);
 		
 	}
 	
@@ -116,7 +153,10 @@ class CustomerController extends Controller
 				$num[$row->customer_id][] = [
 						'number' => $row->number,
 						'tang'	=> $row->tang,
-						'tod'	=> $row->tod
+						'tod'	=> $row->tod,
+						'wingup'	=> $row->wingup,
+						'wingdown'	=> $row->wingdown,
+						'amount'	=> $row->amount,
 							];
 			}
 		}

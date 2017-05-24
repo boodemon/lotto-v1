@@ -263,7 +263,7 @@ class Lib {
 		if($json){
 			foreach($json as   $data){
 				$txt .= '<span class="number-tag"><span class="number"><strong>'. $data['number'] .'</strong> = </span>'
-						.'<span class="tang">'. $data['tang'] .'</span>';
+						.'<span class="tang">'. ( ( $data['wingup'] == 'Y' || $data['wingdown'] == 'Y' ) ? ( ( $data['wingup'] == 'Y' ? ' วิงบน ' . $data['tang'] : '' ) . ( $data['wingdown'] == 'Y' ? ' วิงล่าง '. $data['tang'] : '' ) ) : $data['tang']  ) .'</span>';
 				if( !empty( $data['tod'] ) )
 					$txt .= ' x <span class="tod">' . $data['tod'] .'</span>';
 				$txt .= '</span>';
@@ -274,95 +274,7 @@ class Lib {
 		
 	}
 	
-	public static function shippingStatus($status = null){
-		$res = [
-			'cancle' => '<span class="color-red">ยกเลิกรายการ</span>',
-			'pending' => '<span class="color-red">ส่งคำสั่งซื้อ</span>',
-			'packing' => '<span class="color-brows">บรรจุเตรียมส่ง</span>',
-			'sending' => '<span class="color-blue">ระหว่างจัดส่ง</span>',
-			'success' => '<span class="color-green">ส่งสินค้าเรียบร้อยแล้ว</span>',
-		];
-		return isset($res[$status]) ? $res[$status] : false;
-	}
-	
-	public static function price($discount = 0, $price = 0){
-		if($discount > 0){
-			
-		}
-		return $discount > 0 ? '<span class="discount">'. Lib::nb($price,2) .'</span><br/><span class="price">'. Lib::nb($discount,2) .'</span>' : '<span class="price">'. Lib::nb( $price ,2) .'</span>';
-	}
-	
-	public static function stock($type = null){
-		$arr = [
-			'N' => '<span class="color-red">สินค้าหมด</span>',
-			'Y' => '<span class="color-green">มีสินค้า</span>',
-		];
-		return isset($arr[$type]) ? $arr[$type] : false;
-	}
-	
-	public static function level($key = ''){
-		$arr = [
-			'admin' 	=> 'Administrator',
-			'sale' 		=> 'Sale',
-			'account' 	=> 'Account',
-			'op' 		=> 'Operations',
-		];
-		return isset($arr[$key]) ?  $arr[$key] : ucfirst($key); 
-	}
-	
-	public static function icon($key = '',$title = ''){
-		$icon = [
-			'textbox' 	=> '<div class="form-control"></div>',
-			'textdate' 	=> '<div class="input-group" style="width:140px; margin:auto;">'
-                                .'<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>'
-                                .'<div class="form-control"></div>'
-                              .'</div>',
-			'radiobox' 	=> '<i class="fa fa-dot-circle-o"></i>',
-			'checkbox' 	=> '<i class="fa fa-check-square-o"></i>',
-			'on-hold'			=>	'<i class="fa fa-minus-circle on-hold wcIcon" title="รายการใหม่ '. $title .'" data-html="true"></i>',
-			'pending'			=>	'<i class="fa fa-credit-card pending wcIcon" title="ชำระผ่านเน็ต '. $title .'" data-html="true"></i>',
-			'remittance'		=>	'<i class="fa fa-clock-o remittance wcIcon" title="รอการโอนเงิน '. $title .'" data-html="true"></i>',
-			'confirmation'		=>	'<i class="fa fa-thumbs-o-up confirmation wcIcon" title="รอตรวจสอบ '. $title .'" data-html="true"></i>',
-			'processing'		=>	'<i class="fa fa-ellipsis-h processing wcIcon" title="กำลังดำเนินการ '. $title .'" data-html="true"></i>',
-			'delay'				=>	'<i class="fa fa-calendar delay wcIcon" title="OP ช้า '. $title .'" data-html="true"></i>',
-			'standard'			=>	'<i class="fa fa-circle-o standard wcIcon" title="OP ปรกติ '. $title .'" data-html="true"></i>',
-			'urgent'			=>	'<i class="fa fa-warning urgent wcIcon" title="OP ด่วน '. $title .'" data-html="true"></i>',
-			'waiting'			=>	'<i class="fa fa-plug waiting wcIcon" title="รอสินค้า '. $title .'" data-html="true"></i>',
-			'shipment'			=>	'<i class="fa fa-truck shipment wcIcon" title="จัดส่งสินค้า '. $title .'" data-html="true"></i>',
-			'collecting'		=>	'<i class="fa fa-home collecting wcIcon" title="รับสินค้า '. $title .'" data-html="true"></i>',
-			'amendment'			=>	'<i class="fa fa-wrench amendment wcIcon" title="กำลังแก้ไข '. $title .'" data-html="true"></i>',
-			'completed'			=>	'<i class="fa fa-check-circle completed wcIcon" title="เรียบร้อยแล้ว '. $title .'" data-html="true"></i>',
-			'cancelled'			=>	'<i class="fa fa-times-circle cancelled wcIcon" title="ยกเลิก '. $title .'" data-html="true"></i>',
-			'refunded'			=>	'<i class="fa fa-retweet refunded wcIcon" title="คืนเงิน '. $title .'" data-html="true"></i>',
-			'failed'			=>	'<i class="fa fa-exclamation-circle failed wcIcon" title="ไม่สำเร็จ '. $title .'" data-html="true"></i>',
-			'floating'			=>	'<i class="fa fa-money floating wcIcon" title="ยอดโอนที่ลูกค้ายังไม่แจ้ง  '. $title .'" data-html="true"></i>',
-			
-			// sale status icon //
-			'new' 		=> '<i class="fa sale-status-icon wcIcon  new" title="New '. $title .'" data-html="true">N</i>',
-			'wl' 		=> '<i class="fa sale-status-icon wcIcon  wl" title="W/L '. $title .'" data-html="true">W</i>',
-			'hold' 		=> '<i class="fa sale-status-icon wcIcon  hold" title="Hold '. $title .'" data-html="true">HO</i>',
-			'help' 		=> '<i class="fa sale-status-icon wcIcon  help" title="Help '. $title .'" data-html="true">HE</i>',
-			'cancel' 		=> '<i class="fa sale-status-icon wcIcon  cancel" title="Cancel '. $title .'" data-html="true">C</i>',
-			'done' 		=> '<i class="fa sale-status-icon wcIcon  done" title="Done '. $title .'" data-html="true">D</i>',
-			'rf' 		=> '<i class="fa sale-status-icon wcIcon  rf" title="Refund '. $title .'" data-html="true">RF</i>',
-			// op status icon //
-			'quick' 		=> '<i class="fa fa-warning color-red wcIcon  quick" title="OP ด่วน '. $title .'" data-html="true"></i>',
-			'normal' 		=> '<i class="fa fa-circle-o  color-green wcIcon normal" title="OP ปรกติ '. $title .'" data-html="true"></i>',
-			'wifi' 		=> '<i class="fa fa-wifi color-orange wcIcon  wifi" title="WIFI '. $title .'" data-html="true"></i>',
-			];
-		return isset($icon[$key]) ? $icon[$key] : $key ;
-	}
-	
-	public static function paidType($type = ''){
-		$arr = [
-			"deposit"	=> 'มัดจำ',
-			"change"	=> 'ทอน',
-			"return"	=> 'คืน',
-			"refund"	=> 'รีฟัน',
-		];
-		return isset($arr[$type]) ? $arr[$type] : $arr['deposit'] ;
-	}
-	
+
 	public static function filter($arr,$key){
 		return ( $arr && !in_array($key,$arr) ) ? 'hide' : '';
 	}

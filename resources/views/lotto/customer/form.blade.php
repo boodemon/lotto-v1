@@ -42,26 +42,59 @@
 		<table class="table table-striped table-bordered responsive-utilities jambo_table">
 			<thead>
 				<th class="w220">เลขที่ซื้อ</th>
-				<th class="">จำนวนเงิน</th>
+				<th class="w220">เลขวิ่ง</th>
+				<th class="">ซื้อเต็ง</th>
 				<th class="w10 text-center">x</th>
-				<th class="">จำนวนเงิน</th>
+				<th class="">ซื้อโต๊ด</th>
 				<th class="w220">รวม</th>
 				<th class="w10">#</th>
 			</thead>
 			<tbody>
+				@if( $nums->count() )
+					@foreach($nums as $num)
+				
 				<tr>
-					<td><input type="text" class="form-control number" name="number[]" value=""/></td>
-					<td><input type="text" class="form-control tang" name="tang[]" value=""/></td>
+					<td><input type="text" class="form-control number" data-name="number" name="number[{{$i}}]" value="{{ $num->number }}"/></td>
+					<td class="">
+						<label class="col-md-6">
+							<input type="checkbox" name="wingup[{{$i}}]" class="wingup" data-name="wingup" {{ $num->wingup == 'Y' ? 'checked' : ''}} value="Y"/> วิ่งบน
+						</label>
+						<label class="col-md-6">
+							<input type="checkbox" name="wingdown[{{$i}}]" class="wingdown" data-name="wingdown" {{ $num->wingdown == 'Y' ? 'checked' : ''}} value="Y"/> วิ่งล่าง
+						</label>
+					</td>
+					<td><input type="text" class="form-control tang" name="tang[{{$i}}]" data-name="tang" value="{{ $num->tang }}"/></td>
 					<td class="text-center">x</td>
-					<td><input type="text" class="form-control tod" name="tod[]" value=""/></td>
+					<td><input type="text" class="form-control tod" name="tod[{{$i}}]" data-name="tod" value="{{ $num->tod }}"/></td>
+					<td class="text-right"><span class="sum">{{ $num->amount }}</span></td>
+					<td class="text-center">
+						<button class="btn btn-sm btn-danger btn-remove" data-id="{{ $num->id }}" style="margin-top:-5px;" rel="{{$i}}"><i class="fa fa-minus"></i></button>
+					</td>
+				</tr>
+					<?php ++$i; ?>
+					@endforeach
+				@endif
+				<tr>
+					<td><input type="text" class="form-control number" data-name="number" name="number[{{$i}}]" value=""/></td>
+					<td class="">
+						<label class="col-md-6">
+							<input type="checkbox" name="wingup[{{$i}}]" class="wingup" data-name="wingup" value=""/> วิ่งบน
+						</label>
+						<label class="col-md-6">
+							<input type="checkbox" name="wingdown[{{$i}}]" class="wingdown" data-name="wingdown" value=""/> วิ่งล่าง
+						</label>
+					</td>
+					<td><input type="text" class="form-control tang" name="tang[{{$i}}]" data-name="tang" value=""/></td>
+					<td class="text-center">x</td>
+					<td><input type="text" class="form-control tod" name="tod[{{$i}}]" data-name="tod" value=""/></td>
 					<td class="text-right"><span class="sum">0</span></td>
 					<td class="text-center">
-						<button class="btn btn-sm btn-success btn-add" style="margin-top:-5px;"><i class="fa fa-plus"></i></button>
+						<button class="btn btn-sm btn-success btn-add" style="margin-top:-5px;" rel="{{$i}}"><i class="fa fa-plus"></i></button>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="4" class="text-right"><strong>รวมเป็นเงิน</strong></td>
-					<td class="total text-right">0</td>
+					<td colspan="5" class="text-right"><strong>รวมเป็นเงิน</strong></td>
+					<td class="total text-right">{{ $row ? $row->total : 0 }}</td>
 					<td></td>
 				</tr>
 			</tbody>
@@ -70,13 +103,17 @@
 	
 	<div class="form-group">
 		<label class="col-md-2 control-label">จ่าย</label>
-		<div class="col-md-4">
-			<input type="text" class="form-control" name="paid" value="{{ $row ? $row->paid : old('paid') }}">
+		<div class="col-md-2">
+			<input type="text" class="form-control" name="paid" value="{{ $row ? $row->paid : 0 }}">
 			{!!$errors->first('paid', '<span class="control-label color-red" for="paid">*:message</span>')!!}
 		</div>
-		<label class="col-md-2 control-label">คงเหลือ</label>
-		<div class="col-md-4">
-			<input type="text" class="form-control" name="remain" readonly value="{{ $row ? $row->remain : old('remain') }}">
+		<label class="col-md-2 control-label">ส่วนลด</label>
+		<div class="col-md-2">
+			<input type="text" class="form-control" name="discount" value="{{ $row ? $row->discount : 0 }}">
+			{!!$errors->first('discount', '<span class="control-label color-red" for="discount">*:message</span>')!!}
+		</div>		<label class="col-md-2 control-label">คงเหลือ</label>
+		<div class="col-md-2">
+			<input type="text" class="form-control" name="remain" readonly value="{{ $row ? $row->remain : 0 }}">
 			{!!$errors->first('remain', '<span class="control-label color-red" for="remain">*:message</span>')!!}
 		</div>
 	</div>

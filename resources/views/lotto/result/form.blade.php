@@ -18,7 +18,13 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label">ผลการออกสลาก ประจำงวดวันที่</label>
 		<div class="col-md-3">
-			<input type="text" class="form-control" name="peroid" value="">
+			<select name="peroid" class="form-control">
+				@if($dues)
+					@foreach($dues as $due)
+						<option value="{{ $due->id }}" >{{ Lib::dateThai( $due->ondate ) }}</option>
+					@endforeach
+				@endif
+			</select>
 			{!!$errors->first('peroid', '<span class="control-label color-red" for="peroid">*:message</span>')!!}
 		</div>
 	</div>

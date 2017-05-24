@@ -19,6 +19,7 @@ class CreateCustomersTable extends Migration
 			$table->integer('period_id');
 			$table->integer('total');
 			$table->integer('paid');
+			$table->integer('discount');
 			$table->integer('remain');
             $table->timestamps();
         });

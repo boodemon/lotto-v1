@@ -28,17 +28,19 @@ class ResultController extends Controller
 	}
 	
 	public function create(){
+		$dues = Peroid::orderBy('ondate','desc')->skip(0)->take(10)->get();
 		$data = [
 			'subject' 	=> 'ผลการออกรางวัลสลาก ',
 			'title'		=> 'ฟอร์มบันทึกรายการผลการออกสลาก' ,
 			'row' 		=> false,
+			'dues'		=> $dues,
 			'id'		=> 0,
 		];
 
 		return view('lotto.result.form',$data);
 	}
 	
-	public function due(){
+	public function duedate(){
 		$cdate 	= strtotime( date('Y-m-d' ) );
 		$d1 	= strtotime( date('Y-m-01') );
 		$d2 	= strtotime( date('Y-m-16') );
@@ -46,13 +48,13 @@ class ResultController extends Controller
 		$row 	= Peroid::orderBy('ondate','desc')->first();
 		if($row){
 			$rdate = strtotime( $row->ondate );
-			if( $rdate > $due){
+			if( $rdate > $d2){
 				$peroid = date('Y-m-01' , strtotime('+1 month'));
 			}else{
 				$peroid = $rdate;
 			}
 		}else{
-			if( $cdate > $due){
+			if( $cdate > $d2){
 				$peroid = date('Y-m-01' , strtotime('+1 month'));
 			}else{
 				$peroid = $due;
