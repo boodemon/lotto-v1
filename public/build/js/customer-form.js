@@ -117,4 +117,12 @@
 		});
 	}
 	onwing();
+	
+	var inputActive = function(){
+		$('.number').each(function(i,v){
+			console.log('number is '+ $(this).val() );
+			checkedwing( $(this) );
+		});
+	}
+	inputActive();
 }(jQuery));

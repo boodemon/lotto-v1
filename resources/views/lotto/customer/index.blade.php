@@ -24,6 +24,7 @@
 	</ul>
 @endsection
 @section('content')
+	<input type="hidden" name="_method" value="PUT"/>
 	<table id="example" class="table table-striped table-bordered responsive-utilities jambo_table">
 		<thead>
 			<tr class="headings">
@@ -46,7 +47,7 @@
 							<input name="id[]" type="checkbox" id="id" value="{{ $row->id }}" class="checkboxAll" />
 						</td>
 						<td>{{ $row->name }}</td>
-						<td> {!! Lib::numberTag( $number[$user] ) !!}</td>
+						<td> {!! isset( $number[$user] ) ? Lib::numberTag( $number[$user] ) : '' !!}</td>
 						<td class="text-right">{{ $row->total }}</td>
 						<td class="text-right">{{ $row->paid }}</td>
 						<td class="text-right">{{ $row->remain }}</td>

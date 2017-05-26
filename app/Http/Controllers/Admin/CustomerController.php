@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Request as Req;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
@@ -18,14 +19,29 @@ class CustomerController extends Controller
 {
     public function index(){
 		$due  = Peroid::orderBy('id','desc')->first();
-		$rows = $due ? Customer::where('period_id',$due->id)->orderBy('name')->paginate(52) : false;
-		$numbers = $due ? $this->number($due->id) : false;
+		if($due){
+			$rows = Customer::where('period_id',$due->id);
+			if(Req::exists('keywords')){
+				$keywords = Req::input('keywords');
+				$rows = $rows->where(function($query) use ($keywords){
+						$keys = explode(' ',$keywords);
+						foreach($keys as $kno => $key){
+							$query = $query->where('name','like','%'. $key .'%');
+						}
+				});
+			}
+			$rows = $rows->orderBy('name')->paginate(52);
+			$numbers = $this->number($due->id);
+		}else{
+			$rows = false;
+			$numbers = false;
+		}
 		$data = [
 			'rows' => $rows,
-			'actionUrl' => 'customer',
+			'actionUrl' => 'customer/0',
 			'subject'	=> 'รายชื่อผู้ซื้อหวยประจำงวด ' . Lib::dateThai( $this->peroid() ),
 			'title'		=> 'รายละเอียดผู้ซื้อ',
-			'number'	=> $numbers ? $numbers : false,
+			'number'	=> $numbers,
 		];		
 		return view('lotto.customer.index',$data);
 	}
@@ -89,7 +105,9 @@ class CustomerController extends Controller
 				$num->user_id 		= $request->input('dealer_id');
 				$num->period_id 	= $pe->id;
 				$num->customer_id 	= $customer->id;
-				$num->save();
+				if( !empty($number) )
+					$num->save();
+				
 				$total += ($d > 0 ? $amount * $d : $amount);
 				
 			}
@@ -124,6 +142,72 @@ class CustomerController extends Controller
 		
 	}
 	
+	public function update(Request $request, $id){
+		
+		//echo '<pre>',print_r($request->all()),'</pre>';
+		if( $request->exists('btn-delete') ){
+			if(	$request->input('id') ){
+				foreach($request->input('id') as $no => $cid){
+					$this->del($cid);
+				}
+			}
+			return redirect()->back();
+		}else{
+			$customer = Customer::where('id',$id)->first();
+			
+			$pe = Peroid::where('id',$customer->period_id)->first();
+			$pe->ondate = $request->input('peroid');
+			$pe->save();
+			
+			$customer->user_id 		= $request->input('dealer_id');
+			$customer->name 		= $request->input('name');
+			$customer->paid 		= $request->input('paid');
+			$customer->discount 	= $request->input('discount');
+			$customer->remain 		= $request->input('remain');
+			$customer->period_id 	= $pe->id;
+			$customer->save();
+			
+			$total = 0;
+			if( $request->input('number') ){
+				foreach( $request->input('number') as $no => $number ){
+					$tang 	= $request->input('tang.' . $no);
+					$tod 	= $request->input('tod.' .  $no); 
+					$number 	= $request->input('number.' .  $no); 
+					$d = 0;
+					if( $request->exists('wingup.' .  $no) )
+						++$d;
+					
+					if( $request->exists('wingdown.' .  $no) )
+						++$d;
+				
+					//echo 'no '. $no . ' | d : '. $d .'<br/>';
+					$amount = ($d > 0 ? $tang * $d  : $tang ) + $tod;
+					$num_id = $request->input('number_id.'. $no);
+					$cnum = Number::where('id',$num_id)->first();
+					$num 	= $cnum ? $cnum : new Number;
+					$num->number 	= $number;
+					$num->tang 		= $tang;
+					$num->tod 		= $tod == '' ? 0 : $tod;
+					$num->amount	= $amount;
+					$num->wingup 	= $request->exists('wingup.' .  $no) ? 'Y' : 'N';
+					$num->wingdown= $request->exists('wingdown.' .  $no) ? 'Y' : 'N';
+					$num->user_id 		= $request->input('dealer_id');
+					$num->period_id 	= $pe->id;
+					$num->customer_id 	= $customer->id;
+					if( !empty($number) )
+						$num->save();
+
+					$total += $amount;
+					
+				}
+			}
+		
+		//echo $d .' | '. $total .'<br/>';
+			Customer::where('id',$id)->update(['total' => $total]);
+			return redirect('customer');
+		}
+	}
+	
 	public function peroid(){
 		$row 	= Peroid::orderBy('ondate','desc')->first();
 		$cdate 	= strtotime( date('Y-m-d'));
@@ -148,7 +232,7 @@ class CustomerController extends Controller
 	public function number($due_id = 0){
 		$rows = Number::where('period_id',$due_id)->get();
 		$num = [];
-		if( $rows ){
+		if( $rows->count() ){
 			foreach($rows as $row){
 				$num[$row->customer_id][] = [
 						'number' => $row->number,
@@ -161,6 +245,16 @@ class CustomerController extends Controller
 			}
 		}
 		return $num;
+	}
+	
+	public function del($id){
+		Number::where('customer_id',$id)->delete();
+		Customer::where('id',$id)->delete();
+	}
+	
+	public function show($id){
+		$this->del($id);
+		return redirect()->back();
 	}
 	
 }

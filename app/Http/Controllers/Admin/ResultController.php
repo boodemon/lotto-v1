@@ -35,9 +35,22 @@ class ResultController extends Controller
 			'row' 		=> false,
 			'dues'		=> $dues,
 			'id'		=> 0,
+			'actionUrl' => 'result',
 		];
 
 		return view('lotto.result.form',$data);
+	}
+	
+	public function store(Request $request){
+		//echo '<pre>',print_r( $request->all() ),'</pre>';
+		$row = new Result;
+		$row->period_id = $request->input('peroid');
+		$row->tang 		= $request->input('tang');
+		$row->uptwo 	= $request->input('uptwo');
+		$row->downtree 	= implode(',',$request->input('downtree'));
+		$row->downtwo 	= $request->input('downtwo');
+		$row->save();
+		return redirect('result');
 	}
 	
 	public function duedate(){

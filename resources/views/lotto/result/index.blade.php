@@ -16,6 +16,7 @@
 	</ul>
 @endsection
 @section('content')
+	<input type="hidden" name="_method" value="PUT" />
 	<table id="example" class="table table-striped table-bordered responsive-utilities jambo_table">
 		<thead>
 			<tr class="headings">
@@ -39,17 +40,16 @@
 							<input name="id[]" type="checkbox" id="id" value="{{ $row->id }}" class="checkboxAll" />
 						</td>
 						<td>{{ $row->peroid }}</td>
-						<td class="text-right">{{ $row->tang }}</td>
-						<td class="text-right">{{ $row->tod }}</td>
-						<td class="text-right">{{ $row->uptwo }}</td>
-						<td class="text-right">{{ $row->todtwo }}</td>
-						<td class="text-right">{{ $row->upwing }}</td>
-						<td class="text-right">{{ $row->downtwo }}</td>
-						<td class="text-right">{{ $row->downtree }}</td>
-						<td class="text-right">{{ $row->downwing }}</td>
+						<td class="text-center">{{ $row->tang }}</td>
+						<td class="text-center">{{ $row->tod }}</td>
+						<td class="text-center">{{ $row->uptwo }}</td>
+						<td class="text-center">{{ $row->todtwo }}</td>
+						<td class="text-center">{{ $row->upwing }}</td>
+						<td class="text-center">{{ $row->downtwo }}</td>
+						<td class="text-center">{{ $row->downtree }}</td>
 						<td class="action">
-							<a href="{{url('customer/'. $row->id .'/edit' )}}"><span class="fa fa-edit color-green fs-16"></span></a>&nbsp;
-							<a href="{{url('customer/'. $row->id )}}"class="fa fa-trash txtred fs-16 del"></a>&nbsp;
+							<a href="{{url('result/'. $row->id .'/edit' )}}"><span class="fa fa-edit color-green fs-16"></span></a>&nbsp;
+							<a href="{{url('result/'. $row->id )}}"class="fa fa-trash txtred fs-16 del"></a>&nbsp;
 						</td>
 					</tr>
 						

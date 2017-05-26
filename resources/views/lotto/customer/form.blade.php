@@ -54,7 +54,10 @@
 					@foreach($nums as $num)
 				
 				<tr>
-					<td><input type="text" class="form-control number" data-name="number" name="number[{{$i}}]" value="{{ $num->number }}"/></td>
+					<td>
+						<input type="hidden" class="number_id" data-name="number_id" name="number_id[{{$i}}]" value="{{ $num->id }}"/>
+						<input type="text" class="form-control number" data-name="number" name="number[{{$i}}]" value="{{ $num->number }}"/>
+						</td>
 					<td class="">
 						<label class="col-md-6">
 							<input type="checkbox" name="wingup[{{$i}}]" class="wingup" data-name="wingup" {{ $num->wingup == 'Y' ? 'checked' : ''}} value="Y"/> วิ่งบน
@@ -75,7 +78,10 @@
 					@endforeach
 				@endif
 				<tr>
-					<td><input type="text" class="form-control number" data-name="number" name="number[{{$i}}]" value=""/></td>
+					<td>
+						<input type="hidden" class="number_id" data-name="number_id" name="number_id[{{$i}}]" value="0"/>
+						<input type="text" class="form-control number" data-name="number" name="number[{{$i}}]" value=""/>
+					</td>
 					<td class="">
 						<label class="col-md-6">
 							<input type="checkbox" name="wingup[{{$i}}]" class="wingup" data-name="wingup" value=""/> วิ่งบน
